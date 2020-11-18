@@ -70,14 +70,14 @@ def create_server():
 
 
 def remove_user(conn, address):
-    global user_amount, full
+    global user_amount
     for user in users:
         if user[0] == [conn, address]:
             users.remove(user)
             main.remove_cam(conn)
             print(yellowL + f"\n{address} removed!" + white)
             conn.close()
-            full = False
+            user_amount -= 1
             for user in Users:
                 sendMessage(user[0], user[1], f"User {address[0]} left the server!", "yellowL")
 
@@ -106,7 +106,7 @@ def sendInfo(conn, address): # 9,999,999
             info = main.main(conn, cx, cy, key)
             # print(info)
             main.camRotate(conn, mX, mY)
-            print(conn, " ", len(info))
+            # print(conn, " ", len(info))
             d = pickle.dumps([True, info])
             conn.send(bytes(f"{len(d):<{headerSize}}", "utf-8") + d)
         except ValueError:
